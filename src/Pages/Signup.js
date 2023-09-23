@@ -69,7 +69,7 @@ export const Signup = () => {
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
         const result = await fetch('your-api-endpoint', {
             method: 'POST',
-            body: formData
+            body: JSON.parse(JSON.stringify(formData))
         }).then((response) => {
             if (response.ok) {
                 console.log('Audio and username sent successfully.');
