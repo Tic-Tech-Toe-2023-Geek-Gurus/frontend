@@ -43,14 +43,13 @@ export const Signup = () => {
         }
         
         const blob = new Blob(audioChunks, { type: 'audio/wav' });
-
+        
         // Create a FormData object to send the audio file and username
         const formData = new FormData();
         formData.append('audio', blob);
         formData.append('userName', userName);
-
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
-        const result = await fetch('your-api-endpoint', {
+        const result = await fetch('http://localhost:8000/api/users/register', {
             method: 'POST',
             body: JSON.parse(JSON.stringify(formData))
         }).then((response) => {
@@ -62,10 +61,13 @@ export const Signup = () => {
                 // Handle error as needed
             }
         })
-            .catch((error) => {
-                console.error('Error sending audio and username:', error);
-                // Handle error as needed
-            });
+        .catch((error) => {
+            console.error('Error sending audio and username:', error);
+            // Handle error as needed
+        });
+        
+        console.log('I am here');
+        navigate('/');
     };
 
     return (
@@ -84,7 +86,7 @@ export const Signup = () => {
                 <div class="record d-flex align-items-center">
                     {audioChunks.length === 0 ? (
                         <button onClick={handleStartRecording} className="btn mt-3">
-                            {isRecording ? 'Stop Recording For data1' : 'Start Recording For data1'}
+                            {isRecording ? 'Stop Recording For data1' : 'Start Recording For data'}
                         </button>
                     ) : (
                         <div>
