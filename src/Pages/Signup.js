@@ -36,22 +36,22 @@ export const Signup = () => {
             alert("Please enter a username.");
             return;
         }
-    
+
         if (audioChunks.length === 0) {
             alert("Please record your voice.");
             return;
         }
-        
-        const blob = new Blob(audioChunks, { type: 'audio/wav' });
-        
-        // Create a FormData object to send the audio file and username
+
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+
         const formData = new FormData();
-        formData.append('audio', blob);
-        formData.append('userName', userName);
+        formData.append('audio', audioBlob, "audio.wav"); // Assuming audioFile is your audio file in webm/opus format
+        formData.append('username', userName); // Assuming username is the username text
+        console.log(audioChunks)
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
-        const result = await fetch('http://localhost:8000/api/users/register', {
+        const result = await fetch('http://localhost:8000/register', {
             method: 'POST',
-            body: JSON.parse(JSON.stringify(formData))
+            body: JSON.stringify(formData),
         }).then((response) => {
             if (response.ok) {
                 console.log('Audio and username sent successfully.');
@@ -61,11 +61,11 @@ export const Signup = () => {
                 // Handle error as needed
             }
         })
-        .catch((error) => {
-            console.error('Error sending audio and username:', error);
-            // Handle error as needed
-        });
-        
+            .catch((error) => {
+                console.error('Error sending audio and username:', error);
+                // Handle error as needed
+            });
+
         console.log('I am here');
         navigate('/');
     };

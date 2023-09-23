@@ -29,9 +29,9 @@ export const Profile = () => {
     });
 
     const onsubmit = async (data) => {
-        const result = await fetch('your-api-endpoint', {
+        const result = await fetch('http://localhost:8000/api/users/profile', {
             method: 'POST',
-            body: JSON.parse(JSON.stringify(formData))
+            body: JSON.parse(JSON.stringify(FormData)),
         }).then((response) => {
             if (response.ok) {
                 alert('Data updated successfully.');
@@ -54,7 +54,7 @@ export const Profile = () => {
             </div>
             <h5 class="user-name">Yuki Hayashi</h5>
             <h2>Personal info</h2>
-            <form onSubmit={handleSubmit(onsubmit)} class="form-horizontal" role="form">
+            <form onSubmit={handleSubmit(onsubmit)} class="form-horizontal" role="form" method="POST">
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Name:</label>
                     <div class="col-lg-8">
