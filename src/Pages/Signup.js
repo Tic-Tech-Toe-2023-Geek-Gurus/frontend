@@ -42,16 +42,22 @@ export const Signup = () => {
             return;
         }
 
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-
+        const blob = new Blob(audioChunks, { type: 'audio/wav' });
+        // const formData = {
+        //     username: userName,
+        //     audio: blob
+        // }
         const formData = new FormData();
-        formData.append('audio', audioBlob, "audio.wav"); // Assuming audioFile is your audio file in webm/opus format
+        formData.append('audio', blob); // Assuming audioFile is your audio file in webm/opus format
         formData.append('username', userName); // Assuming username is the username text
         console.log(audioChunks)
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
         const result = await fetch('http://localhost:8000/register', {
             method: 'POST',
-            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'multipart/audio',
+            },
+            body: formData,
         }).then((response) => {
             if (response.ok) {
                 console.log('Audio and username sent successfully.');
