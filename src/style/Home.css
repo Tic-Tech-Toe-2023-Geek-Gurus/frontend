@@ -3,10 +3,10 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 41.45rem;
 }
 
 .content {
+    height: 89.7vh;
     width: 100%;
     margin-top:0;
     padding-top:15rem;
