@@ -1,0 +1,15 @@
+.content {
+    background-image: url('../home-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 41.45rem;
+}
+
+.content {
+    width: 100%;
+    margin-top:0;
+    padding-top:15rem;
+    font-size: 5rem;
+    color: beige;
+}

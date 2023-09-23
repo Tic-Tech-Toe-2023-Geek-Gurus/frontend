@@ -1,8 +1,9 @@
 import "../style/Login.css";
 import { useState, useRef } from "react";
-
+import logo from '../speech-recognition-icon.jpg';
+import { useNavigate } from "react-router-dom";
 export const Login = () => {
-
+    const navigate = useNavigate();
     const [isRecording, setIsRecording] = useState(false);
     const [audioChunks, setAudioChunks] = useState([]);
     const [userName, setUserName] = useState(""); // State to hold the username
@@ -31,7 +32,7 @@ export const Login = () => {
         }
     };
 
-    const handleDownload = () => {
+    const handlelogin = async () => {
         const blob = new Blob(audioChunks, { type: 'audio/wav' });
 
         // Create a FormData object to send the audio file and username
@@ -40,28 +41,36 @@ export const Login = () => {
         formData.append('userName', userName);
 
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
-        fetch('your-api-endpoint', {
+        const result = await fetch('your-api-endpoint', {
             method: 'POST',
-            body: formData
+            body: JSON.stringify(formData)
         }).then((response) => {
-                if (response.ok) {
-                    console.log('Audio and username sent successfully.');
-                    // Handle success as needed
-                } else {
-                    console.error('Failed to send audio and username to the API.');
-                    // Handle error as needed
-                }
-            })
+            if (response.ok) {
+                console.log('Audio and username sent successfully.');
+                // Handle success as needed
+            } else {
+                console.error('Failed to send audio and username to the API.');
+                // Handle error as needed
+            }
+        })
             .catch((error) => {
                 console.error('Error sending audio and username:', error);
                 // Handle error as needed
             });
+        result = await result.json();
+        if (result.userName) {
+            localStorage.set("User", JSON.stringify(result));
+            navigate('/');
+        }
+        else {
+            alert("Please enter the correct details");
+        }
     };
 
     return (
         <div class="wrapper">
             <div class="logo">
-                <img src="https://cdn2.vectorstock.com/i/1000x1000/40/56/speech-recognition-glyph-icon-vector-28874056.jpg" alt="" />
+                <img src={logo} alt="" />
             </div>
             <div class="text-center mt-3 name">
                 Verify your Voice
@@ -72,24 +81,24 @@ export const Login = () => {
                     <input type="text" name="userName" id="userName" placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)} />
                 </div>
                 <div className="record d-flex align-items-center">
-                {audioChunks.length === 0 ? (
-                    <button onClick={handleStartRecording} className="btn mt-3">
-                        {isRecording ? 'Stop Recording' : 'Start Recording'}
-                    </button>
-                ) : (
-                    <div>
-                        <audio controls>
-                            <source src={URL.createObjectURL(new Blob(audioChunks, { type: 'audio/wav' }))} type="audio/wav" />
-                        </audio>
-                        <button onClick={handleStartRecording} className="record btn mt-3">
-                            Re-record
+                    {audioChunks.length === 0 ? (
+                        <button onClick={handleStartRecording} className="btn mt-3">
+                            {isRecording ? 'Stop Recording' : 'Start Recording'}
                         </button>
-                        <button onClick={handleDownload} className="btn mt-3">
-                            Verify
-                        </button>
-                    </div>
-                )}
-            </div>
+                    ) : (
+                        <div>
+                            <audio controls>
+                                <source src={URL.createObjectURL(new Blob(audioChunks, { type: 'audio/wav' }))} type="audio/wav" />
+                            </audio>
+                            <button onClick={handleStartRecording} className="record btn mt-3">
+                                Re-record
+                            </button>
+                            <button onClick={handlelogin} className="btn mt-3">
+                                Verify
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
             <div class="text-center fs-6">
                 Register new account? <a href="/signup">Sign up</a>

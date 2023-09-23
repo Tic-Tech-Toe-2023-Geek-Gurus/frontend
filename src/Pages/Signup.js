@@ -1,7 +1,9 @@
 import "../style/Signup.css";
 import { useState, useRef } from "react";
-const path = require('path');
+import logo from '../speech-recognition-icon.jpg';
+import { useNavigate } from "react-router-dom";
 export const Signup = () => {
+    const navigate = useNavigate();
     const [isRecording1, setIsRecording1] = useState(false);
     const [audioChunks1, setAudioChunks1] = useState([]);
     const [isRecording2, setIsRecording2] = useState(false);
@@ -54,16 +56,18 @@ export const Signup = () => {
             setIsRecording2(false);
         }
     };
-    const handleDownload = () => {
+    const handlesignup = async () => {
         const blob = new Blob(audioChunks1, { type: 'audio/wav' });
+        const blob1 = new Blob(audioChunks2, { type: 'audio/wav' });
 
         // Create a FormData object to send the audio file and username
         const formData = new FormData();
-        formData.append('audio', blob);
+        formData.append('audio1', blob);
+        formData.append('audio2', blob1);
         formData.append('userName', userName);
 
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
-        fetch('your-api-endpoint', {
+        const result = await fetch('your-api-endpoint', {
             method: 'POST',
             body: formData
         }).then((response) => {
@@ -84,7 +88,7 @@ export const Signup = () => {
     return (
         <div class="wrapper">
             <div class="logo">
-                <img src={path.resolve(__dirname,"../../public/speech-recognition-icon.jpg")}  />
+                <img src={logo} alt="" />
             </div>
             <div class="text-center mt-3 name">
                 Signup
@@ -126,7 +130,7 @@ export const Signup = () => {
                         </div>
                     )}
                 </div>
-                <button class="btn mt-3" onClick={handleDownload}>Register</button>
+                <button class="btn mt-3" onClick={handlesignup}>Register</button>
             </div>
         </div>
     );
