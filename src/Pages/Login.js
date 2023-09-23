@@ -52,7 +52,7 @@ export const Login = () => {
         formData.append('userName', userName);
 
         // Replace 'your-api-endpoint' with the actual URL of your API endpoint
-        const result = await fetch('your-api-endpoint', {
+        const result = await fetch('http://localhost:8000/api/users/login', {
             method: 'POST',
             body: JSON.parse(JSON.stringify(formData))
         }).then((response) => {
