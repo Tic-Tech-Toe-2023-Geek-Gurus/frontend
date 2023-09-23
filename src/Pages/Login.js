@@ -33,6 +33,17 @@ export const Login = () => {
     };
 
     const handlelogin = async () => {
+
+        if (!userName) {
+            alert("Please enter a username.");
+            return;
+        }
+    
+        if (audioChunks.length === 0) {
+            alert("Please record your voice.");
+            return;
+        }
+
         const blob = new Blob(audioChunks, { type: 'audio/wav' });
 
         // Create a FormData object to send the audio file and username
