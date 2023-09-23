@@ -84,7 +84,7 @@ export const Signup = () => {
                 <div class="record d-flex align-items-center">
                     {audioChunks.length === 0 ? (
                         <button onClick={handleStartRecording} className="btn mt-3">
-                            {isRecording ? 'Stop Recording For data1' : 'Start Recording For data1'}
+                            {isRecording ? 'Stop Recording For data1' : 'Start Recording For data'}
                         </button>
                     ) : (
                         <div>
